@@ -42,7 +42,7 @@ export const CreateNode = ({
   handles = [],
   fields = [],
   initialState = {},
-  style = {},
+  baseStyle = {},
   renderContent,
 }) => {
   const [values, setValues] = useState(initialState);
@@ -80,7 +80,7 @@ export const CreateNode = ({
   };
 
   return (
-    <BaseNode title={title} handles={handles} style={style}>
+    <BaseNode title={title} handles={handles} baseStyle={baseStyle}>
       {fields.map(renderField)}
       <div>{renderContent}</div>
     </BaseNode>
