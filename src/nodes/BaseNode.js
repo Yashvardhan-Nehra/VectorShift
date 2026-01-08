@@ -3,14 +3,17 @@ import { Handle } from 'reactflow';
 export const BaseNode = ({ 
   title, 
   handles = [], 
-  style = {},
+  baseStyle = {},
   children,
 }) => {
   const defaultStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 5,
     width: 200,
     minHeight: 80,
     border: '1px solid black',
-    ...style,
+    ...baseStyle,
   };
 
   return (
@@ -29,7 +32,7 @@ export const BaseNode = ({
         <span>{title}</span>
       </div>
       
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
         {children}
       </div>
     </div>
