@@ -9,7 +9,7 @@ export const TextNode = ({id, data}) => {
     createHandle({id: `${id}-output`, type: 'source', position: Position.Right}),
   ];
   const fields = [
-    FieldConfig.text('text', 'Text'),
+    FieldConfig.textarea('text', 'Text'),
   ];
   const initialState = {
     text: data?.text || '{{input}}',
