@@ -4,11 +4,13 @@ import { BaseNode } from "./BaseNode";
 import {
   TextField,
   SelectField,
+  TextAreaField,
 } from "./NodeFields";
 
 export const FieldTypes = {
   TEXT: "text",
   SELECT: "select",
+  TEXTAREA: "textarea",
 };
 
 export const FieldConfig = {
@@ -24,6 +26,13 @@ export const FieldConfig = {
     label,
     type: FieldTypes.SELECT,
     options,
+    style,
+  }),
+
+  textarea: (name, label, style = {}) => ({
+    name,
+    label,
+    type: FieldTypes.TEXTAREA,
     style,
   }),
 };
@@ -71,6 +80,16 @@ export const CreateNode = ({
             value={value}
             onChange={handleChange}
             options={field.options}
+            style={field.style}
+          />
+        );
+      case FieldTypes.TEXTAREA:
+        return (
+          <TextAreaField
+            key={field.name}
+            label={field.label}
+            value={value}
+            onChange={handleChange}
             style={field.style}
           />
         );
