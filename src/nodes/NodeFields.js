@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import { renderHighlightedText } from './textNode';
 
 const fieldRowStyle = {
   display: 'flex',
@@ -125,7 +126,13 @@ export const TextAreaField = ({
   value,
   onChange,
 }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [localValue, setLocalValue] = useState(value);
   const textareaRef = useRef(null);
+
+  useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
 
   const adjustHeight = () => {
     const textarea = textareaRef.current;
@@ -137,11 +144,16 @@ export const TextAreaField = ({
 
   useEffect(() => {
     adjustHeight();
-  }, [value]);
+  }, [localValue]);
 
   const handleChange = (e) => {
-    onChange(e.target.value);
+    setLocalValue(e.target.value);
     adjustHeight();
+  };
+
+  const handleBlur = () => {
+    setIsEditing(false);
+    onChange(localValue);
   };
 
   return (
@@ -149,13 +161,29 @@ export const TextAreaField = ({
       <label style={labelStyle}>
         {label}:
       </label>
-      <textarea
-        ref={textareaRef}
-        value={value}
-        onChange={handleChange}
-        style={textareaStyle}
-        rows={1}
-      />
+      {!isEditing && (
+        <div
+          style={{
+            ...textareaStyle,
+            cursor: "text",
+          }}
+          onClick={() => setIsEditing(true)}
+        >
+          {renderHighlightedText(value)}
+        </div>
+      )}
+      {isEditing && (
+        <textarea
+          ref={textareaRef}
+          value={localValue}
+          onChange={handleChange}
+          autoFocus
+          onFocus={() => setIsEditing(true)}
+          onBlur={handleBlur}
+          style={textareaStyle}
+          rows={1}
+        />
+      )}
     </div>
   );
 };

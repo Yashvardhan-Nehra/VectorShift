@@ -11,7 +11,6 @@ export const LLMNode = ({id, data}) => {
     createHandle({id: `${id}-response`, type: 'source', position: Position.Right}),
   ];
   const fields = [];
-  const initialState = {};
   const renderContent = 'This is a LLM.';
-  return CreateNode({title, handles, fields, initialState, renderContent});
+  return CreateNode({title, handles, fields, values: {}, renderContent});
 }

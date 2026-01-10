@@ -7,7 +7,6 @@ export const HiNode = ({ id, data }) => {
     createHandle({ id: `${id}-greeting`, type: 'source', position: Position.Right }),
   ];
   const fields = [];
-  const initialState = {};
   const renderContent = '👋 Hello there!';
 
   const baseStyle = {
@@ -18,5 +17,5 @@ export const HiNode = ({ id, data }) => {
     justifyContent: 'center',
     alignItems: 'center',
   };
-  return CreateNode({ title, handles, fields, initialState, baseStyle, renderContent });
+  return CreateNode({ title, handles, fields, values: {}, baseStyle, renderContent });
 };
