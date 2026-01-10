@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { BaseNode } from "./BaseNode";
 import {
   TextField,
@@ -14,25 +12,28 @@ export const FieldTypes = {
 };
 
 export const FieldConfig = {
-  text: (name, label, style = {}) => ({
+  text: (name, label, handleOnChange = null, style = {}) => ({
     name,
     label,
     type: FieldTypes.TEXT,
+    handleOnChange,
     style,
   }),
 
-  select: (name, label, options, style = {}) => ({
+  select: (name, label, options, handleOnChange = null, style = {}) => ({
     name,
     label,
     type: FieldTypes.SELECT,
     options,
+    handleOnChange,
     style,
   }),
 
-  textarea: (name, label, style = {}) => ({
+  textarea: (name, label,handleOnChange = null, style = {}) => ({
     name,
     label,
     type: FieldTypes.TEXTAREA,
+    handleOnChange,
     style,
   }),
 };
@@ -50,16 +51,13 @@ export const CreateNode = ({
   title,
   handles = [],
   fields = [],
-  initialState = {},
+  values = {},
   baseStyle = {},
   renderContent,
 }) => {
-  const [values, setValues] = useState(initialState);
 
   const renderField = (field) => {
     const value = values[field.name];
-    const handleChange = (newValue) =>
-      setValues({ ...values, [field.name]: newValue });
 
     switch (field.type) {
       case FieldTypes.TEXT:
@@ -68,7 +66,7 @@ export const CreateNode = ({
             key={field.name}
             label={field.label}
             value={value}
-            onChange={handleChange}
+            onChange={field.handleOnChange}
             style={field.style}
           />
         );
@@ -78,7 +76,7 @@ export const CreateNode = ({
             key={field.name}
             label={field.label}
             value={value}
-            onChange={handleChange}
+            onChange={field.handleOnChange}
             options={field.options}
             style={field.style}
           />
@@ -89,7 +87,7 @@ export const CreateNode = ({
             key={field.name}
             label={field.label}
             value={value}
-            onChange={handleChange}
+            onChange={field.handleOnChange}
             style={field.style}
           />
         );

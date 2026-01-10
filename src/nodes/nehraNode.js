@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { Position } from "reactflow";
 import { CreateNode, FieldConfig, createHandle } from "./CreateNode";
 
@@ -29,18 +30,27 @@ export const NehraNode = ({ id, data }) => {
       style: { top: "70%" },
     }),
   ];
+  const [values, setValues] = useState({
+    lastName: data?.lastName || "Nehra",
+    status: data?.status || "active",
+  });
+
+  const handleChange = useCallback(
+    (key) => (newValue) =>
+      setValues((prev) => ({
+        ...prev,
+        [key]: newValue,
+      })),
+    []
+  );
   const fields = [
-    FieldConfig.text("lastName", "Last Name"),
+    FieldConfig.text("lastName", "Last Name", handleChange("lastName")),
     FieldConfig.select("status", "Status", [
       { value: "active", label: "Selected" },
       { value: "inactive", label: "Rejected" },
       { value: "pending", label: "Pending" },
-    ]),
+    ], handleChange("status")),
   ];
-  const initialState = {
-    lastName: data?.lastName || "Nehra",
-    status: data?.status || "active",
-  };
   const style = {
     minHeight: 120,
   };
@@ -49,7 +59,7 @@ export const NehraNode = ({ id, data }) => {
     title,
     handles,
     fields,
-    initialState,
+    values,
     baseStyle: { style },
   });
 };
